@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implement</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="home-icon">
+                <a href=".html">
+                    <img src="C:\Users\Administrator\Desktop\Đồ án Image\smile.png" alt="Home" />
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="requirement.html" class="nav-requirement">Requirement</a>
+                <a href="design.html" class="nav-design">Design</a>
+                <a href="implement.html" class="nav-implement">Implement</a>
+            </div>
+        </div>
+    </nav> 
+    <div class="container">
+        <h1>Quản lý Sách Thư Viện</h1>
+        <!-- Form thêm sách -->
+        <form id="bookForm">
+            <label for="title">Tên Sách:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="author">Tác Giả:</label>
+            <input type="text" id="author" name="author" required>
+            <label for="year">Năm Xuất Bản:</label>
+            <input type="number" id="year" name="year" required>
+            <button type="submit">Thêm Sách</button>
+        </form>
+        
+        <!-- Danh sách sách -->
+        <h2>Danh sách Sách</h2>
+        <input type="text" id="search" placeholder="Tìm kiếm sách...">
+        <ul id="bookList">
+            <!-- Danh sách sách sẽ được hiển thị ở đây -->
+        </ul>
+        
+        <script>
+            let books = [];
+
+            // Thêm sách vào list
+            document.getElementById('bookForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                let title = document.getElementById('title').value;
+                let author = document.getElementById('author').value;
+                let year = document.getElementById('year').value;
+                books.push({ title, author, year });
+                displayBooks();
+                // Xóa trắng các trường sau khi thêm sách
+                document.getElementById('bookForm').reset();
+            });
+
+            // Hiển thị list sách
+            function displayBooks() {
+                let list = document.getElementById('bookList');
+                list.innerHTML = '';
+                books.forEach((book, index) => {
+                    list.innerHTML += `<li>${book.title} - ${book.author} (${"năm: " + book.year}) 
+                    <div>
+                    <button class="edit" onclick="editBook(${index})">Sửa</button> 
+                    <button onclick="deleteBook(${index})">Xóa</button>
+                    </div></li>`;
+                });
+            }
+
+            // Xóa sách
+            function deleteBook(index) {
+                books.splice(index, 1);
+                displayBooks();
+            }
+
+            // Sửa sách
+            function editBook(index) {
+                let book = books[index];
+                document.getElementById('title').value = book.title;
+                document.getElementById('author').value = book.author;
+                document.getElementById('year').value = book.year;
+                deleteBook(index);
+            }
+
+            // Tìm kiếm sách
+            document.getElementById('search').addEventListener('input', function() {
+                let searchValue = this.value.toLowerCase();
+                let filteredBooks = books.filter(book => 
+                    book.title.toLowerCase().includes(searchValue) ||
+                    book.author.toLowerCase().includes(searchValue) ||
+                    book.year.toString().includes(searchValue)
+                );
+                displayFilteredBooks(filteredBooks);
+            });
+
+            function displayFilteredBooks(filteredBooks) {
+                let list = document.getElementById('bookList');
+                list.innerHTML = '';
+                filteredBooks.forEach((book, index) => {
+                    list.innerHTML += `<li>${book.title} - ${book.author} (năm: ${book.year}) 
+                    <div>
+                    <button class="edit" onclick="editBook(${index})">Sửa</button> 
+                    <button onclick="deleteBook(${index})">Xóa</button>
+                    </div></li>`;
+                });
+            }
+        </script>
+    </div>
+</body>
+</html>
+
