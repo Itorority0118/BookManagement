@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .slider {
+            position: relative;
+            max-width: 600px; /* Set the slider width */
+            margin: 20px auto; /* Center the slider */
+            overflow: hidden; /* Hide overflow */
+            border-radius: 20px; /* Optional: rounded corners */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow effect */
+        }
+
+        .slides {
+            display: flex; /* Use Flexbox for sliding effect */
+            transition: transform 0.5s ease; /* Smooth transition */
+        }
+
+        .slides img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        /* Optional: Navigation buttons */
+        .nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <div class="home-icon">
+                <a href=".html">
+                    <img src="C:\Users\Administrator\Desktop\Đồ án Image\smile.png" alt="Home" />
+                </a>
+            </div>
+            <div class="nav-links">
+                <a href="requirement.html" class="nav-requirement">Requirement</a>
+                <a href="design.html" class="nav-design">Design</a>
+                <a href="implement.html" class="nav-implement">Implement</a>
+            </div>
+        </div>
+    </nav> 
+    <div class="container">
+        <h1>Design</h1>
+        <div class="slider">
+            <div class="slides">
+                <img src="C:\Users\Administrator\Desktop\Đồ án Image\05f28fd829e68fb8d6f7.jpg" alt="Giao diện trên giấy">
+                <img src="C:\Users\Administrator\Desktop\Đồ án Image\Screenshot 2024-09-23 164434.png" alt="Giao diện trên HTML (Thẻ Requirement)">
+                <img src="C:\Users\Administrator\Desktop\Đồ án Image\Screenshot 2024-09-23 164724.png" alt="Giao diện trên HTML (Thẻ Design)">
+                <img src="C:\Users\Administrator\Desktop\Đồ án Image\Screenshot 2024-09-23 164749.png" alt="Giao diện trên HTML (Thẻ Implement)">
+            </div>
+            <button class="nav-button prev" onclick="moveSlide(-1)">&#10094;</button>
+            <button class="nav-button next" onclick="moveSlide(1)">&#10095;</button>
+        </div>
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        let slideTimer = setInterval(showSlides, 3000);
+
+        function showSlides() {
+            const slides = document.querySelector('.slides');
+            const totalSlides = slides.children.length;
+            slideIndex++;
+            if (slideIndex >= totalSlides) slideIndex = 0;
+            slides.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+        }
+
+        function moveSlide(n) {
+            slideIndex += n;
+            const slides = document.querySelector('.slides');
+            const totalSlides = slides.children.length;
+            if (slideIndex < 0) slideIndex = totalSlides - 1;
+            if (slideIndex >= totalSlides) slideIndex = 0;
+            slides.style.transform = 'translateX(' + (-slideIndex * 100) + '%)';
+            
+            clearInterval(slideTimer);
+            slideTimer = setInterval(showSlides, 3000); // Change every 3 seconds
+        }
+    </script>
+</body>
+</html>
